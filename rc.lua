@@ -129,9 +129,17 @@ local memory_widget = lain.widget.mem({
 })
 local memwidget = wibox.container.background(wibox.container.margin(wibox.widget {memory_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
+--Temperature widget
+local temperature_widget = widgets.tempwidget 
+local tempwidget = wibox.container.background(wibox.container.margin(wibox.widget {temperature_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+
+-- Power widget
+local power_widget = widgets.battwidget 
+local powwidget = wibox.container.background(wibox.container.margin(wibox.widget {power_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+
 -- Volume widget
 local volume_widget = widgets.volume
-local volwidget = wibox.container.background(wibox.container.margin(wibox.widget {volume_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#1d2120")
+local volwidget = wibox.container.background(wibox.container.margin(wibox.widget {volume_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), beautiful.color.background )
 
 --{{Network widget
 local wifi_icon_widget = widgets.wifi_icon
@@ -140,6 +148,9 @@ local wifi_icon = wibox.container.background(wibox.container.margin(wibox.widget
 local eth_widget = wibox.container.background(wibox.container.margin(wibox.widget {eth_icon_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 --}}
 
+-- Pacman need update widgets
+-- if [[ pacman -Qu | grep -v ignored  | wc -l ]] > 0
+local watchpacman = widgets.watchpacman
 
 -- Systemtray widget
 local systemtray = wibox.widget.systray()
@@ -187,6 +198,7 @@ env.wallpaper(s)
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.noempty, taglist_buttons)
 
+local taglist = wibox.container.background(wibox.container.margin(wibox.widget {s.mytaglist, layout=wibox.layout.fixed.horizontal}, 1, 1), "#2f2f2f")
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
@@ -197,12 +209,12 @@ env.wallpaper(s)
     --Change Volume on Scrollwheel up/down
     volwidget.widget:buttons(awful.util.table.join(
         awful.button({ }, 4, function()
-            awful.spawn("amixer -c 0 -q sset Master 5%+") --scroll up
-            volwidget.widget.update()
+            awful.spawn("amixer -c 1 -q sset Master 5%+") --scroll up
+            volume_widget.update()
         end),
         awful.button({ }, 5, function()
-            awful.spawn("amixer -c 0 -q sset Master 5%-") --scroll down
-            volwidget.widget.update()
+            awful.spawn("amixer -c 1 -q sset Master 5%-") --scroll down
+            volume_widget.update()
         end)
     ))
 
@@ -215,13 +227,16 @@ env.wallpaper(s)
         expand = "none",
         { -- Left Widgets
             layout = wibox.layout.fixed.horizontal,
-            s.mytaglist,
+            taglist,
+            arrow_r("#2f2f2f","alpha"),
+            s.mytasklist,
         },
             -- Middle Widgets
-            mytextclock,
         { -- Right Widgets
+            arrow_l("alpha","#2f2f2f"),
+            mytextclock,
+            arrow_r("#2f2f2f","alpha"),
             layout = wibox.layout.fixed.horizontal,
-            widgets.mpdwidget,
             env.wrapper(layoutbox[s], "layoutbox",layoutbox.buttons),
         },
     }
@@ -229,25 +244,42 @@ env.wallpaper(s)
     --TODO
     --CPU (All 8 threads), jack_control status and MEM usage
     -- create second wibar
-    s.botpanel = awful.wibar({ position = "bottom", screen = s, height=beautiful.panel_height })
+    s.botpanel = awful.wibar({ position = "top", screen = s, height=beautiful.panel_height, bg = "#00000000" })
+    local lwidgets = {
+        {
+            layout = wibox.layout.align.horizontal,
+            cpugovernor,
+            arrow_r("#3f3f3f","alpha"),
+            memwidget.widget,
+        },
+        bg = beautiful.color.background,
+        widget = wibox.container.background
+    }
+    local rwidgets = {
+        {
+            layout = wibox.layout.align.horizontal,
+            tempwidget,
+            arrow_l("#3f3f3f","alpha"),
+            volwidget,
+        },
+        bg = beautiful.color.background,
+        widget = wibox.container.background
+    }
+
     s.botpanel:setup {
         layout = wibox.layout.align.horizontal,
         expand = "none",
         {-- Left Widgets
             layout = wibox.layout.fixed.horizontal,
-            memwidget.widget,
-            arrow_r("#alpha","#3f3f3f"),
-            s.mytasklist,
+            lwidgets,
+            arrow_r(beautiful.color.background,"alpha"),
         },
             --Middle Wdigets
               nil,
             {-- Right Widgets
             layout = wibox.layout.fixed.horizontal,
             arrow_l("alpha","#3f3f3f"),
-            volwidget,
-            arrow_r("alpha","#3f3f3f"),
-            wifi_icon,
-            arrow_r("#3f3f3f","alpha"),
+            rwidgets,
             systemtray,
         },
     }
@@ -380,24 +412,26 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 	awful.key({env.mod}, 			"d", function() awful.spawn("rofi -show") end,
 			  {description = "rofi prompt", group = "launcher"}),
+    awful.key({env.mod},            ";", function() awful.spawn("rofimoji") end,
+            {description = "rofimoji prompt", group = "launcher"}),
 
     --{{{Volume Control
     awful.key({},"XF86AudioLowerVolume",
         function()
             awful.spawn("amixer -q sset Master 5%-")
-            volwidget.update()
+            volume_widget.update()
         end,
     	{description = "Lower volume by 5%", group="client"}),
     awful.key({},"XF86AudioRaiseVolume",
         function()
             awful.spawn("amixer -q sset Master 5%+")
-            volwidget.update()
+            volume_widget.update()
         end,
     	{description = "Raise volume by 5%", group="client"}),
     awful.key({}, "XF86AudioMute",
         function()
             awful.spawn("amixer -q sset Master toggle")
-            volwidget.update()
+            volume_widget.update()
         end,
     	{description = "Mute audio", group="client"})
 )
