@@ -29,7 +29,7 @@ function autostart:run(args)
     run_once(gears.filesystem.get_xdg_config_home() .. "conky/solui.sh")
     run_once("/usr/lib/xfce-polkit/xfce-polkit")
 --    run_once("synergy")
-    run_once(env.scriptsdir .. "/bin/rxvtconf.sh")
+    run_once(env.scriptsdir .. "bin/rxvtconf.sh")
 --    run_once("/home/greyowl/.screenlayout/default.sh")
     
     --}}} COMMS Workspace {{{--
