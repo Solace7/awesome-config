@@ -34,7 +34,7 @@ function env:init(args)
 	self.home = os.getenv("HOME")
     self.config = gears.filesystem.get_xdg_config_home()
 	self.themedir = awful.util.get_configuration_dir() .. "themes/" .. theme
-    self.scripts_folder = self.config .. "scripts/"
+    self.scriptsdir = self.config .. "scripts/"
 
 	self.sloppy_focus = false
 	self.color_border = false

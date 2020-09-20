@@ -17,7 +17,9 @@ function run_once(cmd)
   awful.spawn.with_shell(string.format("pgrep -u $USER -x %s > /dev/null || (%s)", findme, cmd))
 end
 
-function autostart:run()
+function autostart:run(args)
+    local args = args or {}
+    local env = args.env
 
     --}}}Background Stuff {{{--
     
@@ -27,7 +29,7 @@ function autostart:run()
     run_once(gears.filesystem.get_xdg_config_home() .. "conky/solui.sh")
     run_once("/usr/lib/xfce-polkit/xfce-polkit")
 --    run_once("synergy")
-    run_once(gears.filesystem.get_xdg_config_home() .. "../bin/rxvtconf.sh")
+    run_once(env.scriptsdir .. "/bin/rxvtconf.sh")
 --    run_once("/home/greyowl/.screenlayout/default.sh")
     
     --}}} COMMS Workspace {{{--
