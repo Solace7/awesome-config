@@ -244,7 +244,7 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
     --TODO
     --CPU (All 8 threads), jack_control status and MEM usage
     -- create second wibar
-    s.botpanel = awful.wibar({ position = "top", screen = s, height=beautiful.panel_height, bg = "#00000000" })
+    s.spanel = awful.wibar({ position = "top", screen = s, height=beautiful.panel_height, bg = "#00000000" })
     local lwidgets = {
         {
             layout = wibox.layout.align.horizontal,
@@ -259,13 +259,12 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
             layout = wibox.layout.align.horizontal,
             tempwidget,
             arrow_l("#3f3f3f","alpha"),
-            volwidget,
         },
         bg = beautiful.color.background,
         widget = wibox.container.background
     }
 
-    s.botpanel:setup {
+    s.spanel:setup {
         layout = wibox.layout.align.horizontal,
         expand = "none",
         {-- Left Widgets
@@ -280,6 +279,7 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
             layout = wibox.layout.fixed.horizontal,
             arrow_l("alpha","#3f3f3f"),
             rwidgets,
+            volwidget,
             systemtray,
         },
     }
