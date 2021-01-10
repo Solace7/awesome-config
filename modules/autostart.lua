@@ -27,7 +27,6 @@ function autostart:run(args)
     run_once("picom --config " .. env.config .. "picom.conf")
     run_once("/usr/lib/xfce-polkit/xfce-polkit")
     run_once("barrier")
-    run_once(env.scriptsdir .. "/rxvtconf.sh")
     run_once("/home/greyowl/.screenlayout/default.sh")
     
     --}}} COMMS Workspace {{{--
