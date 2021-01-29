@@ -147,7 +147,8 @@ function widgets:init(args)
 
     --Volume widget
     self.volume = lain.widget.alsa({
-        cmd = "amixer -c 1",
+        cmd = "amixer -c 2",
+        channel = "PCM",
         settings = function()
             widget:set_markup(" " .. volume_now.level .. " ")
         end

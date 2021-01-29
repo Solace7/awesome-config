@@ -24,7 +24,7 @@ startup:activate()
 errorcheck = require("modules.errorcheck")
 
 
-env:init({ theme = "xresources" })
+env:init({ theme = "xresources", fm = "doublecmd", terminal = "alacritty"  })
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -209,11 +209,11 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
     --Change Volume on Scrollwheel up/down
     volwidget.widget:buttons(awful.util.table.join(
         awful.button({ }, 4, function()
-            awful.spawn("amixer -c 1 -q sset Master 5%+") --scroll up
+            awful.spawn("amixer -c 2 -q sset PCM 1%+") --scroll up
             volume_widget.update()
         end),
         awful.button({ }, 5, function()
-            awful.spawn("amixer -c 1 -q sset Master 5%-") --scroll down
+            awful.spawn("amixer -c 2 -q sset PCM 1%-") --scroll down
             volume_widget.update()
         end)
     ))
@@ -306,8 +306,8 @@ globalkeys = gears.table.join(
               {description = "go back", group = "tag"}),
     awful.key({ env.mod, "Control" }, "space", naughty.destroy_all_notifications,
               {description = "destroy notification", group = "awesome"}),
---    awful.key({ "Control",         }, "Print", function() awful.spawn("scrot -s -e ' mv $f ~/Pictures/Screenshots/") end,
-             -- {description = "take a screenshot",   group = "awesome"}),
+    awful.key({ "Control",         }, "Print", function() awful.spawn("maim -s -o ~/Pictures/Screenshots/$(date +%s)") end,
+              {description = "take a screenshot",   group = "awesome"}),
 
     --Switching Windows
     awful.key({ env.mod,           }, "Right",
