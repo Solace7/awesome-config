@@ -66,8 +66,8 @@ local taglist_buttons = gears.table.join(
                                                   client.focus:toggle_tag(t)
                                               end
                                           end),
-                    awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
-                    awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
+                    awful.button({ }, 4, function(t) awful.tag.viewprev(t.screen) end),
+                    awful.button({ }, 5, function(t) awful.tag.viewnext(t.screen) end)
                 )
 
 local tasklist_buttons = gears.table.join(
@@ -209,11 +209,11 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
     --Change Volume on Scrollwheel up/down
     volwidget.widget:buttons(awful.util.table.join(
         awful.button({ }, 4, function()
-            awful.spawn("amixer -c 2 -q sset PCM 1%+") --scroll up
+            awful.spawn("amixer -c 3 -q sset PCM 1%+") --scroll up
             volume_widget.update()
         end),
         awful.button({ }, 5, function()
-            awful.spawn("amixer -c 2 -q sset PCM 1%-") --scroll down
+            awful.spawn("amixer -c 3 -q sset PCM 1%-") --scroll down
             volume_widget.update()
         end)
     ))
