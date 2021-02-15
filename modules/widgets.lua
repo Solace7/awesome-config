@@ -36,6 +36,8 @@ function widgets:init(args)
                 widget:set_image(env.themedir .. "/cpu-frequency-indicator-performance.svg")
             else if line:match("powersave") then
                 widget:set_image(env.themedir .. "/cpu-frequency-indicator-powersave.svg")
+            else
+                widget:set_image(env.themedir .. "/cpu-frequency-indicator.svg")
                 end
             end
             cpugov_t = awful.tooltip({
@@ -147,7 +149,7 @@ function widgets:init(args)
 
     --Volume widget
     self.volume = lain.widget.alsa({
-        cmd = "amixer -c 2",
+        cmd = "amixer -c 1",
         channel = "PCM",
         settings = function()
             widget:set_markup(" " .. volume_now.level .. " ")
