@@ -28,6 +28,7 @@ function autostart:run(args)
     run_once("/usr/lib/xfce-polkit/xfce-polkit")
     run_once("barrier")
     run_once("/home/greyowl/.screenlayout/default.sh")
+    run_once("autoadb scrcpy -s '{}'")
     
     --}}} COMMS Workspace {{{--
     commsrun = true
