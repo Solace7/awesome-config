@@ -2,7 +2,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local redflat = require("redflat")
 local beautiful = require("beautiful")
-local gears = require("gears.shape")
+local gears = require("gears")
 
 --Include plugins from lain library
 local lain = require("lain")
@@ -28,8 +28,17 @@ function widgets:init(args)
 
     self.monthcal = awful.widget.calendar_popup.month()
     self.monthcal:attach(self.mytextclock,"tm" ,{on_hover=false})
-    
+
     -- CPU Governor Widget
+    cpugovs = {
+        { "performance", function() awful.spawn("cpupower frequency-set -g performance") end },
+        { "powersave", function() awful.spawn("cpupower frequency-set -g powersave") end },
+    }
+    cpugovmenu = awful.menu({ items = { {"governors", cpugovs }
+
+                                     }
+                            })
+
     self.cpugovernor = awful.widget.watch('cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor', 60, function(widget, stdout)
         for line in stdout:gmatch("[^\r\n]+") do
             if line:match("performance") then 
@@ -47,10 +56,12 @@ function widgets:init(args)
                 end,
             })
         end
-    
     end, wibox.widget.imagebox())
     
-    
+    self.cpugovernor:buttons(gears.table.join(
+                    awful.button({ }, 3, function() cpugovmenu:toggle() end)
+                    ))
+
     --Systemtray widget
     self.systemtray = wibox.widget.systray()
     
@@ -94,7 +105,7 @@ function widgets:init(args)
     self.wifi_icon = wifi_icon
     self.eth_icon = eth_icon
 
-    wifi_icon:buttons(awful.util.table.join(
+    wifi_icon:buttons(gears.table.join(
         awful.button({}, 1, function() awful.spawn.with_shell("networkmanager_dmenu") end)))
      
     self.watchpacman = wibox.widget.imagebox()
@@ -149,7 +160,7 @@ function widgets:init(args)
 
     --Volume widget
     self.volume = lain.widget.alsa({
-        cmd = "amixer -c 1",
+        cmd = "amixer -c 2",
         channel = "PCM",
         settings = function()
             widget:set_markup(" " .. volume_now.level .. " ")
