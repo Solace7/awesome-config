@@ -31,8 +31,8 @@ function widgets:init(args)
 
     -- CPU Governor Widget
     cpugovs = {
-        { "performance", function() awful.spawn("cpupower frequency-set -g performance") end },
-        { "powersave", function() awful.spawn("cpupower frequency-set -g powersave") end },
+        { "performance", function() awful.spawn('gksu "cpupower frequency-set -g performance"') end },
+        { "powersave", function() awful.spawn('gksu "cpupower frequency-set -g powersave"') end },
     }
     cpugovmenu = awful.menu({ items = { {"governors", cpugovs }
 
@@ -160,8 +160,8 @@ function widgets:init(args)
 
     --Volume widget
     self.volume = lain.widget.alsa({
-        cmd = "amixer -c 2",
-        channel = "PCM",
+        cmd = "amixer",
+        channel = "Master",
         settings = function()
             widget:set_markup(" " .. volume_now.level .. " ")
         end
