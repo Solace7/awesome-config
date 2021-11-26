@@ -22,20 +22,24 @@ function autostart:run(args)
     local env = args.env
 
     --}}}Background Stuff {{{--
-    
     --Run only once
     run_once("picom --config " .. env.config .. "picom.conf")
     run_once("/usr/lib/xfce-polkit/xfce-polkit")
-    run_once("barrier")
-    run_once("/home/greyowl/.screenlayout/default.sh")
+    run_once("cadence --minimized")
+    run_once("copyq")
+    run_once("sh ".. env.home .. "/.screenlayout/default.sh")
     run_once("autoadb scrcpy -S '{}'")
     run_once("glava")
-    
+    run_once("redshift-gtk")
+    run_once("blueberry-tray")
+    run_once("pamac-tray")
+    run_once("notion-app-enhanced")
+    run_once("steam")
+    run_once("imwheel -R -b 45")
     --}}} COMMS Workspace {{{--
     commsrun = true
     commsStartup = {
-    	"discord",
-        "skype",
+    	"discord-ptb",
     }
     if commsrun then
     	for app = 1, #commsStartup do
