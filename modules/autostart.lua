@@ -26,23 +26,8 @@ function autostart:run(args)
     --Run only once
     run_once("picom --config " .. env.config .. "picom.conf")
     run_once("/usr/lib/xfce-polkit/xfce-polkit")
-    run_once("barrier")
-    run_once("/home/greyowl/.screenlayout/default.sh")
-    run_once("autoadb scrcpy -S '{}'")
-    run_once("glava")
+    run_once(env.terminal .. "-e wtfutil")
     
-    --}}} COMMS Workspace {{{--
-    commsrun = true
-    commsStartup = {
-    	"discord",
-        "skype",
-    }
-    if commsrun then
-    	for app = 1, #commsStartup do
-    		run_once(commsStartup[app])
-    	end
-        commsrun = false
-    end
 end
 
 return autostart
