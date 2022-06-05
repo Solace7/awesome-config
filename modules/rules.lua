@@ -55,6 +55,7 @@ rules.floating_clients = {
     name = {
       "Event Tester",  -- xev.
       "sforzando (GUI)",
+      "MAkeIMage", -- maim screenshot keybind 
     },
     role = {
       "AlarmWindow",  -- Thunderbird's calendar.
