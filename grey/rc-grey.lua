@@ -202,8 +202,14 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
-    local layoutbox = widgets.layoutbox
-    layoutbox[s] = redflat.widget.layoutbox({ screen = s })
+    --local layoutbox = widgets.layoutbox
+    --layoutbox[s] = redflat.widget.layoutbox({ screen = s })
+    s.layoutbox = awful.widget.layoutbox(s)
+    s.layoutbox:buttons(gears.table.join(
+                           awful.button({ }, 1, function () awful.layout.inc( 1) end),
+                           awful.button({ }, 3, function () awful.layout.inc(-1) end),
+                           awful.button({ }, 4, function () awful.layout.inc( 1) end),
+                           awful.button({ }, 5, function () awful.layout.inc(-1) end)))
 
 
     --Change Volume on Scrollwheel up/down
@@ -231,13 +237,16 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
             arrow_r("#2f2f2f","alpha"),
             s.mytasklist,
         },
-            -- Middle Widgets
-        { -- Right Widgets
+        { -- Middle Widgets
+        layout = wibox.layout.align.horizontal,
             arrow_l("alpha","#2f2f2f"),
             mytextclock,
             arrow_r("#2f2f2f","alpha"),
+        },
+        { -- Right Widgets
             layout = wibox.layout.fixed.horizontal,
-            env.wrapper(layoutbox[s], "layoutbox",layoutbox.buttons),
+            s.layoutbox,
+            --env.wrapper(layoutbox[s], "layoutbox",layoutbox.buttons),
         },
     }
 
