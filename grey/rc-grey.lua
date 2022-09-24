@@ -360,13 +360,19 @@ globalkeys = gears.table.join(
 
     --Moving Windows
     awful.key({ env.mod, "Shift"   }, "Left",
-    function ()
-        awful.client.swap.global_bydirection("left")
+    function () 
+        local index=client.focus.first_tag.index
+        client.focus:move_to_screen(client.focus.screen.index-1)
+        local tag=client.focus.screen.tags[index]
+        client.focus:move_to_tag(tag)
     end,
               {description = "swap with client to the left", group = "client"}),
     awful.key({ env.mod, "Shift"   }, "Right",
     function ()
-        awful.client.swap.global_bydirection("right")
+        local index=client.focus.first_tag.index
+        client.focus:move_to_screen(client.focus.screen.index+1)
+        local tag=client.focus.screen.tags[index]
+        client.focus:move_to_tag(tag)
     end,
               {description = "swap with client to the right", group = "client"}),
     awful.key({ env.mod, "Shift"   }, "Down",
