@@ -159,6 +159,13 @@ function widgets:init(args)
     local layoutbox = widgets.layoutbox
 
     --Volume widget
+    
+    local newvolume = require('awesome-wm-widgets.volume-widget.volume')
+    
+    self.vol_widget = newvolume{
+      widget_type = 'icon_and_text'
+    }
+
     self.volume = lain.widget.alsa({
         cmd = "amixer",
         channel = "Master",

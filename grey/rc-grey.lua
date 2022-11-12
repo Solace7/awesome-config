@@ -138,7 +138,7 @@ local power_widget = widgets.battwidget
 local powwidget = wibox.container.background(wibox.container.margin(wibox.widget {power_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
 -- Volume widget
-local volume_widget = widgets.volume
+local volume_widget = widgets.vol_widget
 local volwidget = wibox.container.background(wibox.container.margin(wibox.widget {volume_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), beautiful.color.background )
 
 --{{Network widget
@@ -215,12 +215,10 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
     --Change Volume on Scrollwheel up/down
     volwidget.widget:buttons(awful.util.table.join(
         awful.button({ }, 4, function()
-            awful.spawn("amixer -c 3 -q sset PCM 1%+") --scroll up
-            volume_widget.update()
+            awful.spawn("amixer -q sset Master 1%+") --scroll up
         end),
         awful.button({ }, 5, function()
-            awful.spawn("amixer -c 3 -q sset PCM 1%-") --scroll down
-            volume_widget.update()
+            awful.spawn("amixer -q sset Master 1%-") --scroll down
         end)
     ))
 
@@ -442,20 +440,17 @@ globalkeys = gears.table.join(
     --{{{Volume Control
     awful.key({},"XF86AudioLowerVolume",
         function()
-            awful.spawn("amixer -q sset Master 5%-")
-            volume_widget.update()
+            awful.spawn("amixer -q sset Master 1%-")
         end,
-    	{description = "Lower volume by 5%", group="client"}),
+    	{description = "Lower volume by 1%", group="client"}),
     awful.key({},"XF86AudioRaiseVolume",
         function()
-            awful.spawn("amixer -q sset Master 5%+")
-            volume_widget.update()
+            awful.spawn("amixer -q sset Master 1%+")
         end,
-    	{description = "Raise volume by 5%", group="client"}),
+    	{description = "Raise volume by 1%", group="client"}),
     awful.key({}, "XF86AudioMute",
         function()
             awful.spawn("amixer -q sset Master toggle")
-            volume_widget.update()
         end,
     	{description = "Mute audio", group="client"})
 )

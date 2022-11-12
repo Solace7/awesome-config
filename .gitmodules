@@ -4,3 +4,9 @@
 [submodule "lain"]
 	path = lain
 	url = https://github.com/lcpz/lain
+[submodule "bling"]
+	path = bling
+	url = https://github.com/BlingCorp/bling.git
+[submodule "awesome-wm-widgets"]
+	path = awesome-wm-widgets
+	url = https://github.com/streetturtle/awesome-wm-widgets
