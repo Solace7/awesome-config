@@ -25,6 +25,24 @@ errorcheck = require("modules.errorcheck")
 
 
 env:init({ theme = "xresources", fm = "doublecmd", terminal = "alacritty"  })
+local bling = require("bling")
+
+bling.widget.window_switcher.enable {
+    type = "thumbnail",
+
+    hide_window_switcher_key = "Escape",  -- The key on which to close the popup
+    minimize_key = "n",                   -- The key on which to minimize the selected client
+    unminimize_key = "N",                 -- The key on which to unminimize all clients
+    kill_client_key = "q",                -- The key on which to close the selected client
+    cycle_key = "Tab",                    -- The key on which to cycle through all clients
+    previous_key = "Left",                -- The key on which to select the previous client
+    next_key = "Right",                   -- The key on which to select the next client
+    vim_previous_key = "h",               -- Alternative key on which to select the previous client
+    vim_next_key = "l",                   -- Alternative key on which to select the next client
+
+  cycleClientsByIdx = awful.client.focus.byidx,
+  filterClients = awful.widget.tasklist.filter.currenttags,
+}
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -411,6 +429,7 @@ globalkeys = gears.table.join(
     end,
               {description = "move to prev screen, cycling", group = "client"}),
               ]]--
+    awful.key({ env.mod               }, "Tab", function() awesome.emit_signal("bling::window_switcher::turn_on") end, {description = "Window Switcher", group = "bling"}),
 
     -- Standard program
     awful.key({ env.mod, "Shift" }, "Return", function () awful.spawn(env.terminal) end,
