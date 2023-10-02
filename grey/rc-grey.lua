@@ -393,29 +393,6 @@ globalkeys = gears.table.join(
     awful.key({ env.mod,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
 
-    awful.key({ env.mod,           }, "Tab",
-        function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
-        end,
-
-    awful.key({ env.mod,           }, "j", function () awful.screen.focus_bydirection("left") end,
-              {description = "focus the next screen", group = "screen"}),
-    awful.key({ env.mod,           }, "k", function () awful.screen.focus_bydirection("right") end,
-              {description = "focus the previous screen", group = "screen"}),
-    awful.key({ env.mod,   "Shift" }, "j",   awful.client.movetoscreen,
-              {description = "move to next screen, cycling", group = "client"}),
---[[    awful.key({ env.mod,   "Shift" }, "j",  function() client:move_to_screen() end,
-              {description = "move to next screen, cycling", group = "client"}),
-    awful.key({ env.mod,   "Shift" }, "k", 
-    function () 
-        local screen = awful.screen.focused()
-        client:move_to_screen(screen.index-1)
-    end,
-              {description = "move to prev screen, cycling", group = "client"}),
-              ]]--
     awful.key({ env.mod               }, "Tab", function() awesome.emit_signal("bling::window_switcher::turn_on") end, {description = "Window Switcher", group = "bling"}),
 
     -- Standard program
