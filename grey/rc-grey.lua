@@ -605,7 +605,7 @@ local signals = require("modules.signals")
         awful.titlebar(c):setup {
             { -- Left
                 --awful.titlebar.widget.iconwidget(c),
-                --buttons = buttons,
+                buttons = buttons,
                 layout  = wibox.layout.fixed.horizontal
             },
             { -- Middle
