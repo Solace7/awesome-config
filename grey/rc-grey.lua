@@ -400,7 +400,6 @@ globalkeys = gears.table.join(
                 client.focus:raise()
             end
         end,
-        {description = "go back", group = "client"}),
 
     awful.key({ env.mod,           }, "j", function () awful.screen.focus_bydirection("left") end,
               {description = "focus the next screen", group = "screen"}),
@@ -500,7 +499,7 @@ clientkeys = gears.table.join(
     awful.key({ env.mod,           }, "m",
         function (c)
             c.maximized = not c.maximized
-	    c.ontop = not c.ontop
+	          c.ontop = not c.ontop
             c:raise()
         end ,
         {description = "(un)maximize", group = "tag"}),
