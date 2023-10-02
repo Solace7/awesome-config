@@ -641,6 +641,6 @@ local signals = require("modules.signals")
 ----------------------------------{{AUTOSTART}}----------------------------------
 local autostart = require("modules.autostart")
 if startup.is_startup then
-    awful.spawn.with_shell("/home/sgreyowl/.config/scripts/display_setup.sh")
+    awful.spawn.with_shell("/home/grey/scripts/display_setup.sh")
     autostart:run({env = env})
 end
