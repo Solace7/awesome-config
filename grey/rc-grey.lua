@@ -11,6 +11,9 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+--load luarocks if instaed
+pcall(require, 'luarocks.loader')
+
 -- Extra plugins!
 local lain = require("lain")
 
