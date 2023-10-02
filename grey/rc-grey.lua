@@ -175,15 +175,6 @@ local systemtray = wibox.widget.systray()
 
 -----------Screen Setup-----------
 awful.screen.connect_for_each_screen(function(s)
-
-s.drop_urxvt = lain.util.quake{
-    settings = function(c)
-        c.sticky = true
-        c.ontop = true
-        app = "urxvt"
-        argname = "--name %s"
-    end
-}
 ----------------------------
 -------{{WORKSPACES}}-------
 ----------------------------
@@ -323,8 +314,6 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
     awful.key({ env.mod,           }, "s", hotkeys_popup.show_help,
               {description="show help", group="awesome"}),    
-    awful.key({ env.mod,           }, "z", function() awful.screen.focused().drop_urxvt:toggle() end,
-    {description="dropdown urxvt terminal",group="awesome"}),    
     awful.key({ env.mod,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
     awful.key({ env.mod, "Control" }, "space", naughty.destroy_all_notifications,
