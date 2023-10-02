@@ -192,7 +192,7 @@ s.drop_urxvt = lain.util.quake{
 awful.tag(
 {
     "MAIN",
-    "SECONDARY",
+    "NOTARY",
     "TERTIARY",
     "QUATERNARY",
     "GAMES",
