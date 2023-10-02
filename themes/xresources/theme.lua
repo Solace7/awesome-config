@@ -18,6 +18,7 @@ local theme = {}
 theme.panel_height = 26
 theme.wallpaper = theme_path.."/background.png"
 theme.wallpaper_portrait = theme_path.."/background_portrait.png"
+theme.wallpapers = {theme_path.."/backgroundcenter.png",theme_path.."/backgroundright.png",theme_path.."/backgroundleft.png"}
 
 theme.font          = "Fira Code 9"
 
