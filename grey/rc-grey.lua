@@ -319,7 +319,7 @@ globalkeys = gears.table.join(
               {description = "go back", group = "tag"}),
     awful.key({ env.mod, "Control" }, "space", naughty.destroy_all_notifications,
               {description = "destroy notification", group = "awesome"}),
-    awful.key({ env.mod, "Shift"   }, "s", function() awful.spawn(env.terminal.." --class term.screenshot -t MAkeIMage -e maim --format png -s /dev/stdout | copyq write image/png -") end,
+    awful.key({ env.mod, "Shift"   }, "s", function() awful.spawn("flameshot gui") end,
               {description = "take a screenshot",   group = "awesome"}),
 
     --Switching Windows
