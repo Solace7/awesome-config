@@ -312,7 +312,7 @@ root.buttons(gears.table.join(
 --------------------------
 
 globalkeys = gears.table.join(
-    awful.key({ env.mod,           }, "s", hotkeys_popup.show_help,
+    awful.key({ env.mod, "Shift"   }, "/", hotkeys_popup.show_help,
               {description="show help", group="awesome"}),    
     awful.key({ env.mod,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
