@@ -222,17 +222,6 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
                            awful.button({ }, 4, function () awful.layout.inc( 1) end),
                            awful.button({ }, 5, function () awful.layout.inc(-1) end)))
 
-
-    --Change Volume on Scrollwheel up/down
-    volwidget.widget:buttons(awful.util.table.join(
-        awful.button({ }, 4, function()
-            awful.spawn("amixer -q sset Master 1%+") --scroll up
-        end),
-        awful.button({ }, 5, function()
-            awful.spawn("amixer -q sset Master 1%-") --scroll down
-        end)
-    ))
-
     -- Create the wibox
     s.toppanel = awful.wibar({ position = "top", screen = s, height=beautiful.panel_height })
 
