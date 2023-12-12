@@ -175,15 +175,17 @@ function widgets:init(args)
     })
  
     --Temperature widget
-    self.tempwidget = lain.widget.temp({
-        settings = function()
-            if coretemp_now > 60 then
-                widget:set_markup('<span color="#FB4934">' .. coretemp_now .. "°C" .. '</span>')
-            else 
-                widget:set_markup(coretemp_now .. "°C")
-            end
+    local tempsensordevice="k10temp-pci-00c3"
+    self.tempsensorwidget = awful.widget.watch('bash -c \"sensors | awk \'/' .. tempsensordevice ..'/{f=1} f && /Tctl/{print $2; f=0}\' | cut -c 2-5"',60, function(widget, stdout)
+      for line in stdout:gmatch("[^\r\n]+") do
+        if tonumber(line) > 60 then
+          widget:set_markup('<span color="#FB4934">' .. line .. "°C" .. '</span>')
+        else 
+          widget:set_markup(line .. "°C")
         end
-    })
+        return
+      end
+    end)
     
         -- We need one layoutbox per screen.
         self.layoutbox = {}

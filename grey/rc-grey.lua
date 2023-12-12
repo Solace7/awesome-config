@@ -150,7 +150,7 @@ local memory_widget = lain.widget.mem({
 local memwidget = wibox.container.background(wibox.container.margin(wibox.widget {memory_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
 --Temperature widget
-local temperature_widget = widgets.tempwidget 
+local temperature_widget = widgets.tempsensorwidget --tempwidget 
 local tempwidget = wibox.container.background(wibox.container.margin(wibox.widget {temperature_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
 -- Power widget
