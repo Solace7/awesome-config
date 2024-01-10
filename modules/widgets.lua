@@ -64,7 +64,7 @@ function widgets:init(args)
 
     --Systemtray widget
     self.systemtray = wibox.widget.systray()
-    
+
     --{{Network widget
     local wifi_icon = wibox.widget.imagebox()
     local eth_icon = wibox.widget.imagebox()
@@ -126,38 +126,7 @@ function widgets:init(args)
             })
     end)
     ]]--
-    --MPD Widget
-    local mpd = lain.widget.mpd({
---         host = "~/.config/mpd/socket",
-         music_dir = "~/Music/My Music",
-         timeout = 1,
-         followtag = true,
-    settings = function ()
-            local elapsed = mpd_now.elapsed
-            local duration = mpd_now.time
-            if mpd_now.state == "play" then
-                    widget:set_markup( mpd_now.title .. " - " .. mpd_now.artist .. " ")
-            elseif mpd_now.state == "pause" then
-                widget:set_markup("MPD PAUSED ")                
-            else
-                widget:set_markup("MPD OFFLINE ")
-            end
-        mpd_notification_preset = {
-            title = "Now Playing",
-            timeout = 6,
-            text = string.format("%s | (%s) \n%s", mpd_now.artist, mpd_now.album, mpd_now.title)
-        }
-        end
-    })
-   
-    --mpd widget
-    self.mpdwidget = wibox.container.background(mpd.widget)
-   --[[ self.mpdwidget:buttons(awful.util.table.join(
-        awful.button({}, 1, function() awful.spawn.with_shell("terminator -l Music") end)))]]--
     
-    --Layoutbox widget
-    local layoutbox = widgets.layoutbox
-
     --Volume widget
     
     local newvolume = require('awesome-wm-widgets.volume-widget.volume')
