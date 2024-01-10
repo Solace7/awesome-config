@@ -173,7 +173,23 @@ function widgets:init(args)
             widget:set_markup(" " .. volume_now.level .. " ")
         end
     })
- 
+    
+    -- IP address widget
+    local address_device="enp6s0"
+    self.address_widget = awful.widget.watch('bash -c \"ip -4 -o a | grep ' .. address_device .. '| awk \'{print $4}\'\"', 60, function(widget, stdout)
+      for line in stdout:gmatch("[^\r\n]+") do
+        widget:set_markup(address_device .. ": " .. line)
+      end
+        return
+    end)
+
+    -- Uptime widget
+    self.uptimewidget = awful.widget.watch('bash -c \"uptime -p\"', 60, function (widget,stdout)
+      for line in stdout:gmatch("[^\r\n]+") do
+        widget:set_markup(line)
+      end
+    end) 
+
     --Temperature widget
     local tempsensordevice="k10temp-pci-00c3"
     self.tempsensorwidget = awful.widget.watch('bash -c \"sensors | awk \'/' .. tempsensordevice ..'/{f=1} f && /Tctl/{print $2; f=0}\' | cut -c 2-5"',60, function(widget, stdout)

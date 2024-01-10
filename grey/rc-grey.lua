@@ -148,6 +148,10 @@ local memory_widget = lain.widget.mem({
     end
 })
 local memwidget = wibox.container.background(wibox.container.margin(wibox.widget {memory_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+-- Address widget
+local lanwidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.address_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+-- Uptime widget
+local uptimewidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.uptimewidget, layout=wibox.layout.fixed.horizontal}, 1, 1), beautiful.color.background)
 
 --Temperature widget
 local temperature_widget = widgets.tempsensorwidget --tempwidget 
@@ -278,6 +282,10 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
             layout = wibox.layout.fixed.horizontal,
             cpugovernor,
             lwidgets,
+            arrow_r("#1d2021","#3f3f3f"),
+            lanwidget,
+            arrow_r("#3f3f3f","#1d2021"),
+            uptimewidget,
             arrow_r(beautiful.color.background,"alpha"),
         },
             --Middle Wdigets
