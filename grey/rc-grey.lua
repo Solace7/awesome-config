@@ -189,7 +189,7 @@ awful.tag(
 {
     "MAIN",
     "NOTARY",
-    "TERTIARY",
+    "MEDIA",
     "QUATERNARY",
     "GAMES",
     "DEVELOP",
