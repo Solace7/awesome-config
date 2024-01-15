@@ -136,10 +136,10 @@ local arrow_l = separators.arrow_left
 
 -- Create a textclock widget
 local mytextclock_widget = widgets.mytextclock
-local mytextclock = wibox.container.background(wibox.container.margin(wibox.widget {mytextclock_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+local mytextclock = wibox.container.background(wibox.container.margin(wibox.widget {mytextclock_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#1d2021")
+
 -- CPU Governor Widget
-local cpugovernor_widget = widgets.cpugovernor
-local cpugovernor = wibox.container.background(wibox.container.margin(wibox.widget {cpugovernor_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+local cpugovernor = wibox.container.background(wibox.container.margin(wibox.widget {widgets.cpugovernor, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
 -- Memory Widget
 local memory_widget = lain.widget.mem({
@@ -147,29 +147,26 @@ local memory_widget = lain.widget.mem({
         widget:set_markup(round((mem_now.used/1024),2).. "GB/" .. round(mem_now.total/1024,2) .. "GB")
     end
 })
-local memwidget = wibox.container.background(wibox.container.margin(wibox.widget {memory_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+local memwidget = wibox.container.background(wibox.container.margin(wibox.widget {memory_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#1d2021")
+
 -- Address widget
-local lanwidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.address_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+local lanwidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.address_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#98971a")
+
 -- Uptime widget
 local uptimewidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.uptimewidget, layout=wibox.layout.fixed.horizontal}, 1, 1), beautiful.color.background)
 
 --Temperature widget
-local temperature_widget = widgets.tempsensorwidget --tempwidget 
-local tempwidget = wibox.container.background(wibox.container.margin(wibox.widget {temperature_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+local tempwidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.tempsensorwidget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
 -- Power widget
-local power_widget = widgets.battwidget 
-local powwidget = wibox.container.background(wibox.container.margin(wibox.widget {power_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+local powwidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.battwidget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
 -- Volume widget
-local volume_widget = widgets.vol_widget
-local volwidget = wibox.container.background(wibox.container.margin(wibox.widget {volume_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), beautiful.color.background )
+local volwidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.vol_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), beautiful.color.background )
 
 --{{Network widget
-local wifi_icon_widget = widgets.wifi_icon
-local eth_icon_widget = widgets.eth_icon
-local wifi_icon = wibox.container.background(wibox.container.margin(wibox.widget {wifi_icon_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
-local eth_widget = wibox.container.background(wibox.container.margin(wibox.widget {eth_icon_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+local wifi_icon = wibox.container.background(wibox.container.margin(wibox.widget {widgets.wifi_icon, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+local eth_widget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.eth_icon, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 --}}
 
 -- Pacman need update widgets
@@ -177,7 +174,7 @@ local eth_widget = wibox.container.background(wibox.container.margin(wibox.widge
 local watchpacman = widgets.watchpacman
 
 -- Systemtray widget
-local systemtray = wibox.widget.systray()
+local systemtray = wibox.container.background(wibox.container.margin(wibox.widget {wibox.widget.systray(), layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
 --TODO Layoutbox
 
