@@ -250,7 +250,7 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
     }
 
     --TODO
-    --CPU (All 8 threads), jack_control status and MEM usage
+    --CPU (All 8 threads)
     -- create second wibar
     s.spanel = awful.wibar({ position = "top", screen = s, height=beautiful.panel_height, bg = "#00000000" })
     local lwidgets = {
