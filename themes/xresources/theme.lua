@@ -45,7 +45,7 @@ theme.fg_minimize   = theme.color.selected_text
 theme.fg_systray    = theme.color.selected_text
 
 theme.border_width  = dpi(2)
---theme.useless_gap   = dpi(10)
+theme.useless_gap   = dpi(7)
 theme.border_normal = theme.color.bg_normal
 theme.border_focus  = theme.color.selected
 theme.border_marked = theme.bg_urgent
