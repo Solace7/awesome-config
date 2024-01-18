@@ -39,7 +39,7 @@ rules.floating_clients = {
     class = {
       "Arandr",
       "Gpick",
-	  "Steam",
+  	  "Steam",
       "Kruler",
       "MessageWin",  -- kalarm.
       "Xmessage",
@@ -124,7 +124,11 @@ rules.GAMES = {
         "Steam",
         "MultiMC",
         "Lutris"
-    }
+    },
+    name = {
+        "Steam"
+    },
+
 }
 
 function rules:enable()
