@@ -34,7 +34,9 @@ function env:init(args)
 	self.home = os.getenv("HOME")
     self.config = self.home .. ".config/"
 	self.themedir = awful.util.get_configuration_dir() .. "themes/" .. theme
-    self.scriptsdir = self.config .. "scripts/"
+  self.scriptsdir = self.home .. "/scripts/"
+
+  self.keyboard_layout_overlay = env.themedir .. "moonlanderlayout-latest.png"
 
 	self.sloppy_focus = false
 	self.color_border = false
