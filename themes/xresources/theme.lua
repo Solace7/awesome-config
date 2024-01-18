@@ -24,31 +24,31 @@ theme.font          = "Fira Code 9"
 
 theme.color = {
     background      = xrdb.background,
+    alt_background  = "#32302f", -- Xresources soft contrast
     selected        = xrdb.foreground,
-    alert           = xrdb.color11,
-    focused         = "#1f1f1f",
+    alert           = xrdb.color1,
+    focused         = xrdb.color11,
     selected_text   = xrdb.foreground,
-    gold            = xrdb.color11,
-    blue            = xrdb.color4
+    unselected      = xrdb.color7,
 }
 
-theme.bg_normal     = theme.color.background
-theme.bg_focus      = theme.color.focused
+theme.bg_normal     = theme.color.alt_background
+theme.bg_focus      = theme.color.background
 theme.bg_urgent     = theme.color.alert
-theme.bg_minimize   = theme.color.focused
+theme.bg_minimize   = theme.color.background
 theme.bg_systray    = theme.color.bg_normal
 
 theme.fg_normal     = theme.color.selected_text
-theme.fg_focus      = theme.color.selected.text
+theme.fg_focus      = theme.color.selected_text
 theme.fg_urgent     = theme.color.background
 theme.fg_minimize   = theme.color.selected_text
 theme.fg_systray    = theme.color.selected_text
 
 theme.border_width  = dpi(2)
 --theme.useless_gap   = dpi(10)
---[[theme.border_normal = theme.color.bg_normal
+theme.border_normal = theme.color.bg_normal
 theme.border_focus  = theme.color.selected
-theme.border_marked = theme.bg_urgent]]--
+theme.border_marked = theme.bg_urgent
 
 theme.titlebar_bg_focus = theme.color.bg_focus
 theme.titlebar_fg_focus = theme.color.fg_focus
