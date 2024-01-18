@@ -253,35 +253,18 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
     --CPU (All 8 threads)
     -- create second wibar
     s.spanel = awful.wibar({ position = "top", screen = s, height=beautiful.panel_height, bg = "#00000000" })
-    local lwidgets = {
-        {
-            layout = wibox.layout.align.horizontal,
-            arrow_r("#3f3f3f","alpha"),
-            memwidget.widget,
-        },
-        bg = beautiful.color.background,
-        widget = wibox.container.background
-    }
-    local rwidgets = {
-        {
-            layout = wibox.layout.align.horizontal,
-            tempwidget,
-            arrow_l("#3f3f3f","alpha"),
-        },
-        bg = beautiful.color.background,
-        widget = wibox.container.background
-    }
-
+    
     s.spanel:setup {
         layout = wibox.layout.align.horizontal,
         expand = "none",
         {-- Left Widgets
             layout = wibox.layout.fixed.horizontal,
             cpugovernor,
-            lwidgets,
-            arrow_r("#1d2021","#3f3f3f"),
-            lanwidget,
             arrow_r("#3f3f3f","#1d2021"),
+            memwidget,
+            arrow_r("#1d2021","#98971a"),
+            lanwidget,
+            arrow_r("#98971a","#1d2021"),
             uptimewidget,
             arrow_r(beautiful.color.background,"alpha"),
         },
@@ -289,9 +272,13 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
               nil,
             {-- Right Widgets
             layout = wibox.layout.fixed.horizontal,
-            arrow_l("alpha","#3f3f3f"),
-            rwidgets,
+            arrow_l("alpha","#1d2021"),
+            adbdevicemenu,
+            arrow_l("#1d2021","#3f3f3f"),
+            tempwidget,
+            arrow_l("#3f3f3f","#1d2021"),
             volwidget,
+            arrow_l("#1d2021","#3f3f3f"),
             systemtray,
         },
     }
