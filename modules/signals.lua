@@ -57,7 +57,7 @@ function signals:listen(args)
         end 
     end)
     --Screen handling
-    screen.connect_signal("list", function() awful.spawn("/home/grey/.config/scripts/display_setup.sh") end )
+    screen.connect_signal("list", function() awful.spawn(scriptsdir .. "display_setup.sh") end )
    
 end
 
