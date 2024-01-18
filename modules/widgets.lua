@@ -62,6 +62,47 @@ function widgets:init(args)
                     awful.button({ }, 3, function() cpugovmenu:toggle() end)
                     ))
 
+    adbdevicelist = {
+                      {"..."}
+                    }
+
+    adbdevicelist[0] = {"check adb devices"}
+
+    -- ADB Android Menu Widget
+    self.adbdevicemenu = awful.widget.watch('adb devices | grep devices$ | awk "{print $1}"', 60, function(widget, stdout)
+        widget:set_image(env.themedir .. "/mobile-screen.svg")
+        for line in stdout:gmatch("[^\r\n]+") do
+            adbdevicelist[#line] = { line }
+        end
+        end, wibox.widget.imagebox())
+    
+    gears.timer {
+      timeout   = 10,
+      call_now  = true,
+      autostart = true,
+      callback  = function()
+        awful.spawn.easy_async(
+        {'bash -c "adb devices -l | grep product"'},
+        function(out)
+          if #out >= 1 then
+           for k,v in pairs(out) do
+              device = out[k]
+              adbdevicelist[k] = { device, function() awful.spawn(scriptsdir .. 'bin/adbscrcpy' .. device) end }
+            end
+          else
+            adbdevicelist[0] = {"no devices available"}
+          end
+        end
+        ) 
+      end
+    }
+    adbdevicemenu = awful.menu({items = {{"devices", adbdevicelist}
+                                        }
+                               })
+    self.adbdevicemenu:buttons(gears.table.join(
+                    awful.button({ }, 3, function() adbdevicemenu:toggle() end)
+                    ))
+
     --Systemtray widget
     self.systemtray = wibox.widget.systray()
 

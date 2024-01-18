@@ -138,6 +138,9 @@ local arrow_l = separators.arrow_left
 local mytextclock_widget = widgets.mytextclock
 local mytextclock = wibox.container.background(wibox.container.margin(wibox.widget {mytextclock_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#1d2021")
 
+-- ADB menu widget
+local adbdevicemenu = wibox.container.background(wibox.container.margin(wibox.widget{widgets.adbdevicemenu, layout=wibox.layout.fixed.horizontal}, 1, 1), "#1d2021")
+
 -- CPU Governor Widget
 local cpugovernor = wibox.container.background(wibox.container.margin(wibox.widget {widgets.cpugovernor, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
