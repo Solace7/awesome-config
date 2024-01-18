@@ -34,6 +34,7 @@ rules.floating_clients = {
       "DTA",  -- Firefox addon DownThemAll.
       "copyq",  -- Includes session name in class.
       "origin.exe",
+      "ST7789",
     },
     class = {
       "Arandr",
@@ -41,6 +42,7 @@ rules.floating_clients = {
 	  "Steam",
       "Kruler",
       "MessageWin",  -- kalarm.
+      "Xmessage",
       "Sxiv",
       "Wpa_gui",
       "pinentry",
@@ -55,13 +57,25 @@ rules.floating_clients = {
     name = {
       "Event Tester",  -- xev.
       "sforzando (GUI)",
-      "MAkeIMage", -- maim screenshot keybind 
+      "ST7789",
     },
     role = {
       "AlarmWindow",  -- Thunderbird's calendar.
       "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
       "toolbox_window", -- e.g. Dia's toolbox
     }
+}
+
+rules.screenshot = {
+  name = {
+      "MAkeIMage", -- maim screenshot keybind 
+  }
+}
+
+rules.dropdown = {
+  name = {
+    "TermDropdown",
+  }
 }
 
 rules.nofloat = {
@@ -79,6 +93,7 @@ rules.fullscreen = {
 rules.COMMS = {
     class = {
         "discord",
+        "Beeper",
         "Android Messages",
         "skype"
     }
@@ -126,6 +141,20 @@ function rules:enable()
         {
             rule_any = rules.fullscreen,
             properties = { fullscreen = true}
+        },
+        {
+            rule_any = rules.screenshot,
+            properties = { floating = true }
+        },
+        {
+            rule_any = rules.dropdown,
+            properties = { floating = true, ontop = true, placement = awful.placement.top },
+            callback = function(c)
+              c.maximized_horizontal = true
+              client.connect_signal("mouse::leave",function(c)
+                --c.minimized = true
+              end)
+            end
         },
         {
             rule_any = rules.COMMS,
