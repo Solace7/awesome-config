@@ -25,21 +25,24 @@ function autostart:run(args)
     --Run only once
     run_once("picom --config " .. env.config .. "picom.conf")
     run_once("/usr/lib/xfce-polkit/xfce-polkit")
-    run_once("cadence --minimized")
     run_once("copyq")
     run_once("sh ".. env.home .. "/.screenlayout/default.sh")
     run_once("autoadb scrcpy -S '{}'")
-    run_once("glava")
+--    run_once("glava")
+--    run_once("glava -e rc-bt.glsl")
     run_once("redshift-gtk")
-    run_once("blueberry-tray")
+    --run_once("blueberry-tray")
+    run_once("nm-applet")
+    run_once("blueman-applet")
     run_once("pamac-tray")
-    run_once("notion-app-enhanced")
+    --run_once("notion-app-enhanced")
     run_once("steam")
-    run_once("imwheel -R -b 45")
+    --run_once("imwheel -R -b 45")
     --}}} COMMS Workspace {{{--
     commsrun = true
     commsStartup = {
     	"discord-ptb",
+      "beeper"
     }
     if commsrun then
     	for app = 1, #commsStartup do
