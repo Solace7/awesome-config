@@ -188,7 +188,7 @@ function widgets:init(args)
     local address_device="enp6s0"
     self.address_widget = awful.widget.watch('bash -c \"ip -4 -o a | grep ' .. address_device .. '| awk \'{print $4}\'\"', 60, function(widget, stdout)
       for line in stdout:gmatch("[^\r\n]+") do
-        widget:set_markup(address_device .. ": " .. line)
+        widget:set_markup('<span color="#1d2021">' .. address_device .. ": " .. line .. '</span>')
       end
         return
     end)
