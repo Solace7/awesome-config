@@ -169,10 +169,9 @@ function widgets:init(args)
     ]]--
     
     --Volume widget
+    local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
     
-    local newvolume = require('awesome-wm-widgets.volume-widget.volume')
-    
-    self.vol_widget = newvolume{
+    self.vol_widget = volume_widget{
       widget_type = 'icon_and_text'
     }
 
@@ -180,7 +179,7 @@ function widgets:init(args)
         cmd = "amixer",
         channel = "Master",
         settings = function()
-            widget:set_markup(" " .. volume_now.level .. " ")
+            widget:set_markup(" VOL " .. volume_now.level .. "%")
         end
     })
     
