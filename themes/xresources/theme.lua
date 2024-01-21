@@ -183,6 +183,13 @@ theme.awesome_icon = theme_assets.awesome_icon(
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
 theme.icon_theme = "suru-plus-aspormauros"
 
+-- Bling window switcher settings
+theme.window_switcher_widget_bg = theme.bg_normal
+theme.window_switcher_widget_border_color = theme.fg_normal
+theme.window_switcher_name_focus_color = theme.fg_focus
+theme.window_switcher_name_normal_color = theme.unselected
+theme.window_switcher_name_font = "Fira Code 11"
+
 return theme
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
