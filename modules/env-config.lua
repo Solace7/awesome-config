@@ -11,7 +11,7 @@ local redflat = require("redflat")
 
 -------DONT LOAD NAUGHTY------- 2018-12-05, I'm gonna see how I like naughty over dunst
 --local _dbus = dbus; dbus = nil
-local naughty = require("naughty")
+-- local naughty = require("naughty")
 --dbus = _dbus
 
 -- Initialize tables and vars for module
@@ -28,11 +28,11 @@ function env:init(args)
 
 	-- environment vars
 	self.terminal = args.terminal or "urxvt"
-    self.editor = args.editor or "vim"
+  self.editor = args.editor or "nvim"
 	self.mod = args.mod or "Mod4"
-	self.fm = args.fm or "nemo"
+	self.fm = args.fm or "doublecmd"
 	self.home = os.getenv("HOME")
-    self.config = self.home .. ".config/"
+  self.config = self.home .. "/.config"
 	self.themedir = awful.util.get_configuration_dir() .. "themes/" .. theme
   self.scriptsdir = self.home .. "/scripts/"
 
@@ -43,7 +43,7 @@ function env:init(args)
 	self.set_slave = false
 
 	-- theme setup
-	beautiful.init(env.themedir .. "/theme.lua")
+	  beautiful.init(env.themedir .. "/theme.lua")
     self.icon_dir = "/usr/share/icons/Suru++-Asprómauros"
 end
 -- Wallpaper setup
