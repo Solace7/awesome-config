@@ -36,6 +36,7 @@ function autostart:run(args)
     run_once("blueman-applet")
     run_once("pamac-tray")
     --run_once("notion-app-enhanced")
+    run_once("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     run_once("steam")
     --run_once("imwheel -R -b 45")
     --}}} COMMS Workspace {{{--
