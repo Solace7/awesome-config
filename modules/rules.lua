@@ -131,6 +131,12 @@ rules.GAMES = {
 
 }
 
+rules.ON_TOP = {
+    name = {
+        "smartwatch" -- For go-smartwatch simulator
+    },
+}
+
 function rules:enable()
     self.rules = {
         {
@@ -149,6 +155,10 @@ function rules:enable()
         {
             rule_any = rules.screenshot,
             properties = { floating = true }
+        },
+        {
+          rule_any = rules.ON_TOP,
+          properties = { ontop = true }
         },
         {
             rule_any = rules.dropdown,
