@@ -122,7 +122,7 @@ function widgets:init(args)
                     eth_icon:set_image()
                 end
             end
-            local wlan0 = net_now.devices["wlp0s26u1u2"]
+            local wlan0 = net_now.devices["wlan0"]
             if wlan0 then
                 if wlan0.wifi then
                     local signal = wlan0.signal
@@ -184,7 +184,7 @@ function widgets:init(args)
     })
     
     -- IP address widget
-    local address_device="enp6s0"
+    local address_device="enp2s0" --TODO err message when device not found
     self.address_widget = awful.widget.watch('bash -c \"ip -4 -o a | grep ' .. address_device .. '| awk \'{print $4}\'\"', 60, function(widget, stdout)
       for line in stdout:gmatch("[^\r\n]+") do
         widget:set_markup('<span color="#1d2021">' .. address_device .. ": " .. line .. '</span>')
