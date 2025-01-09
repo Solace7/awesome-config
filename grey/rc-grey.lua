@@ -210,6 +210,8 @@ env.wallpaper(s)
 ---------{{TITLEBAR}}---------
 ------------------------------
 
+    -- Create a hostname widget
+    hostname = wibox.container.background(wibox.container.margin(wibox.widget {markup=string.upper(awesome.hostname), align=center, widget=wibox.widget.textbox}, 1, 1), "#282828")
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.noempty, taglist_buttons)
 
@@ -235,6 +237,8 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
         expand = "none",
         { -- Left Widgets
             layout = wibox.layout.fixed.horizontal,
+            hostname,
+            arrow_r("#282828","alpha"),
             taglist,
             arrow_r("#2f2f2f","alpha"),
             s.mytasklist,
