@@ -410,6 +410,8 @@ globalkeys = gears.table.join(
 			  {description = "rofi prompt", group = "launcher"}),
     awful.key({env.mod},            ";", function() awful.spawn("rofimoji") end,
             {description = "rofimoji prompt", group = "launcher"}),
+    awful.key({ "Mod4", }, "i", function() awful.spawn.with_shell("readclipboard") end,
+              {description = "Pipe current selection into spd-say", group = "launcher"}),
 
     --{{{Volume Control
     awful.key({},"XF86AudioLowerVolume",
