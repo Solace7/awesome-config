@@ -24,26 +24,25 @@ function autostart:run(args)
     --}}}Background Stuff {{{--
     --Run only once
     run_once("picom --config " .. env.config .. "picom.conf")
-    run_once("/usr/lib/xfce-polkit/xfce-polkit")
     run_once("copyq")
     run_once("sh ".. env.home .. "/.screenlayout/default.sh")
     run_once("autoadb scrcpy -S '{}'")
---    run_once("glava")
---    run_once("glava -e rc-bt.glsl")
     run_once("redshift-gtk")
-    --run_once("blueberry-tray")
-    run_once("nm-applet")
     run_once("blueman-applet")
+    run_once("nm-applet")
     run_once("pamac-tray")
-    --run_once("notion-app-enhanced")
+    run_once("tailscale-systray")
     run_once("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
-    run_once("steam")
-    --run_once("imwheel -R -b 45")
+    awful.spawn.with_shell("zellij a -bf BARRIER")
+    run_once("barrier")
+    -- run_once("glava")
+    -- run_once("glava -e rc-bt.glsl")
+    -- run_once("steam")
     --}}} COMMS Workspace {{{--
-    commsrun = true
+    commsrun = false
     commsStartup = {
-    	"discord-ptb",
-      "beeper"
+      -- "discord-ptb",
+      -- "beeper"
     }
     if commsrun then
     	for app = 1, #commsStartup do

@@ -24,7 +24,7 @@ function widgets:init(args)
     self.mykeyboardlayout = awful.widget.keyboardlayout()
     
     -- Create a textclock widget
-    self.mytextclock = wibox.widget.textclock("%H:%M:%S § %Y-%m-%d",1)
+    self.mytextclock = wibox.widget.textclock("%H:%M:%S § %Y-%m-%d | %a",1)
 
     self.monthcal = awful.widget.calendar_popup.month()
     self.monthcal:attach(self.mytextclock,"tm" ,{on_hover=false})
@@ -35,8 +35,7 @@ function widgets:init(args)
         { "powersave", function() awful.spawn('gksu "cpupower frequency-set -g powersave"') end },
     }
     cpugovmenu = awful.menu({ items = { {"governors", cpugovs }
-
-                                     }
+                                      }
                             })
 
     self.cpugovernor = awful.widget.watch('cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor', 60, function(widget, stdout)
@@ -57,22 +56,33 @@ function widgets:init(args)
             })
         end
     end, wibox.widget.imagebox())
-    
+
     self.cpugovernor:buttons(gears.table.join(
                     awful.button({ }, 3, function() cpugovmenu:toggle() end)
                     ))
 
+    -- Weather Widget
+   weatherwatch = awful.widget.watch(env.config .. 'awesome/openweathermap-fullfeatured.sh $(cat ' .. env.config .. 'awesome/.openweathermapapikey )', 7200, function(widget,stdout)
+        for line in stdout:gmatch("[^\r\n]+") do
+            widget:set_markup(line)
+        end
+    end, wibox.widget.textbox())
+    
+    self.weatherwatcher = wibox.container.background()
+    self.weatherwatcher:set_bg("#1d2021")
+    self.weatherwatcher:set_widget(weatherwatch)
+    
     adbdevicelist = {
                       {"..."}
                     }
 
-    adbdevicelist[0] = {"check adb devices"}
+    adbdevicelist[1] = {"check adb devices"}
 
     -- ADB Android Menu Widget
     self.adbdevicemenu = awful.widget.watch('adb devices | grep devices$ | awk "{print $1}"', 60, function(widget, stdout)
         widget:set_image(env.themedir .. "/mobile-screen.svg")
-        for line in stdout:gmatch("[^\r\n]+") do
-            adbdevicelist[#line] = { line }
+        for x,line in ipairs(stdout:gmatch("[^\r\n]+")) do
+            adbdevicelist[x] = { line }
         end
         end, wibox.widget.imagebox())
     
@@ -93,7 +103,7 @@ function widgets:init(args)
             adbdevicelist[0] = {"no devices available"}
           end
         end
-        ) 
+        )
       end
     }
     adbdevicemenu = awful.menu({items = {{"devices", adbdevicelist}
@@ -179,12 +189,15 @@ function widgets:init(args)
         cmd = "amixer",
         channel = "Master",
         settings = function()
-            widget:set_markup(" VOL " .. volume_now.level .. "%")
+            if volume_now.level ~= nil then
+              widget:set_markup(" VOL " .. volume_now.level .. "%")
+            end 
         end
     })
     
     -- IP address widget
     local address_device="enp6s0"
+    -- awful.spawn.easy_async_with_shell("nmcli c | head -n 2 | tail -n 1 | awk '{print $4}'", function(out) address_device = out end)
     self.address_widget = awful.widget.watch('bash -c \"ip -4 -o a | grep ' .. address_device .. '| awk \'{print $4}\'\"', 60, function(widget, stdout)
       for line in stdout:gmatch("[^\r\n]+") do
         widget:set_markup('<span color="#1d2021">' .. address_device .. ": " .. line .. '</span>')
