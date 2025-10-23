@@ -11,9 +11,6 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
---load luarocks if instaed
-pcall(require, 'luarocks.loader')
-
 -- Extra plugins!
 local lain = require("lain")
 
@@ -26,9 +23,8 @@ startup:activate()
 ----------------------------------{{{ERROR HANDLING}}}----------------------------------
 errorcheck = require("modules.errorcheck")
 
-
-env:init({ theme = "xresources" , terminal = "urxvt", mod="Mod1" })
-local bling = require("bling")
+env:init({ theme = "devtheme", fm = "doublecmd", terminal = "alacritty"  })
+local bling = require("bling") -- 20220807 - Bling Testing
 
 bling.widget.window_switcher.enable {
     type = "thumbnail",
@@ -47,11 +43,20 @@ bling.widget.window_switcher.enable {
   filterClients = awful.widget.tasklist.filter.currenttags,
 }
 
--- Table of layouts
+-- playerctl:disable() -- 20220807 - playerctl notifications testing 
+local playerctl = bling.signal.playerctl.lib()
+playerctl:connect_signal("metadata", function(_, title, artist, album_path, album, new, player_name)
+      if new == true then
+          naughty.notify({title = title, text = artist, image = album_path}) 
+        end end)
+
+-- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.tile,
-    awful.layout.suit.magnifier,
-    awful.layout.suit.fair,
+    awful.layout.suit.tile.top,
+    awful.layout.suit.tile.right,
+    awful.layout.suit.tile.left,
+	  awful.layout.suit.fair,
     awful.layout.suit.max,
 }
 
@@ -132,44 +137,36 @@ local separators = lain.util.separators
 local arrow_r = separators.arrow_right
 local arrow_l = separators.arrow_left
 
+local keyboardLayoutPopup = awful.popup {
+  widget = {
+    {
+      {
+        image = env.keyboard_layout_overlay,
+        resize = true,
+        forced_height = 500,
+        forced_width = 1000,
+        opacity = 0.5,
+        widget = wibox.widget.imagebox
+      },
+      layout = wibox.layout.fixed.vertical,
+    },
+    margins = 10,
+    widget = wibox.container.margin
+  },
+  border_color = '#fabd2f',
+  border_width = 3,
+  placement = awful.placement.centered,
+  shape = gears.shape.rounded_rect,
+  visible = true,
+  hide_on_right_click = true,
+}
 
 -- Create a textclock widget
 local mytextclock_widget = widgets.mytextclock
-local mytextclock = wibox.container.background(wibox.container.margin(wibox.widget {mytextclock_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#1d2021")
-
--- ADB menu widget
-local adbdevicemenu = wibox.container.background(wibox.container.margin(wibox.widget{widgets.adbdevicemenu, layout=wibox.layout.fixed.horizontal}, 1, 1), "#1d2021")
-
+local mytextclock = wibox.container.background(wibox.container.margin(wibox.widget {mytextclock_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 -- CPU Governor Widget
-local cpugovernor = wibox.container.background(wibox.container.margin(wibox.widget {widgets.cpugovernor, layout=wibox.layout.fixed.horizontal}, 1, 1), "#1d2021")
-
--- Disk usage widget TODO
-local homeusage_widget = lain.widget.fs({
-    settings  = function()
-        widget:set_markup('<span color="#1d2021">' .. 
-        "/: " ..  fs_now["/"].percentage .. "% (" .. string.format("%.1f",fs_now["/"].free) .. " " .. fs_now["/"].units .. " left)" 
-        .. " | " .. 
-        "HOME: " ..  fs_now["/home"].percentage .. "% (" .. string.format("%.1f",fs_now["/home"].free) .. " " .. fs_now["/home"].units .. " left)" 
-        .. '</span>')
-    end
-})
-local fshome = wibox.container.background(wibox.container.margin(wibox.widget {homeusage_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#cc241d")
-
--- sysload widget TODO
-local sysload_widget = lain.widget.sysload({
-  settings = function()
-    widget:set_markup('<span color="#1d2021">' .. "L1" .. load_1 .. "|" .. "L5: " .. load_5 .. "|" .. "L15" .. load_15 .. '</span>')
-  end
-})
-local sysloadwidget = wibox.container.background(wibox.container.margin(wibox.widget {sysload_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#fabd2f")
-
--- CPU usage widget TODO
-local cpu_widget = lain.widget.cpu({
-  settings = function()
-    widget:set_text(cpu_now.usage)
-  end
-})
-local cpuwidget = wibox.container.background(wibox.container.margin(wibox.widget {cpu_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#fabd2f")
+local cpugovernor_widget = widgets.cpugovernor
+local cpugovernor = wibox.container.background(wibox.container.margin(wibox.widget {cpugovernor_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
 -- Memory Widget
 local memory_widget = lain.widget.mem({
@@ -177,26 +174,25 @@ local memory_widget = lain.widget.mem({
         widget:set_markup(round((mem_now.used/1024),2).. "GB/" .. round(mem_now.total/1024,2) .. "GB")
     end
 })
-local memwidget = wibox.container.background(wibox.container.margin(wibox.widget {memory_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#1d2021")
-
--- Address widget
-local lanwidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.address_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#98971a")
-
--- Uptime widget
-local uptimewidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.uptimewidget, layout=wibox.layout.fixed.horizontal}, 1, 1), beautiful.color.background)
+local memwidget = wibox.container.background(wibox.container.margin(wibox.widget {memory_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
 --Temperature widget
-local tempwidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.tempsensorwidget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+local temperature_widget = widgets.tempwidget 
+local tempwidget = wibox.container.background(wibox.container.margin(wibox.widget {temperature_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
 -- Power widget
-local powwidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.battwidget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+local power_widget = widgets.battwidget 
+local powwidget = wibox.container.background(wibox.container.margin(wibox.widget {power_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 
 -- Volume widget
-local volwidget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.vol_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), beautiful.color.background )
+local volume_widget = widgets.volume
+local volwidget = wibox.container.background(wibox.container.margin(wibox.widget {volume_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), beautiful.color.background )
 
 --{{Network widget
-local wifi_icon = wibox.container.background(wibox.container.margin(wibox.widget {widgets.wifi_icon, layout=wibox.layout.fixed.horizontal}, 1, 1), "#1d2021")
-local eth_widget = wibox.container.background(wibox.container.margin(wibox.widget {widgets.eth_icon, layout=wibox.layout.fixed.horizontal}, 1, 1), "#1d2021")
+local wifi_icon_widget = widgets.wifi_icon
+local eth_icon_widget = widgets.eth_icon
+local wifi_icon = wibox.container.background(wibox.container.margin(wibox.widget {wifi_icon_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+local eth_widget = wibox.container.background(wibox.container.margin(wibox.widget {eth_icon_widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
 --}}
 
 -- Pacman need update widgets
@@ -204,12 +200,23 @@ local eth_widget = wibox.container.background(wibox.container.margin(wibox.widge
 local watchpacman = widgets.watchpacman
 
 -- Systemtray widget
-local systemtray = wibox.container.background(wibox.container.margin(wibox.widget {wibox.widget.systray(), layout=wibox.layout.fixed.horizontal}, 1, 1), "#3f3f3f")
+local systemtray = wibox.widget.systray()
+
+local weatherwatch = widgets.weatherwatcher
 
 --TODO Layoutbox
 
 -----------Screen Setup-----------
 awful.screen.connect_for_each_screen(function(s)
+
+s.drop_urxvt = lain.util.quake{
+    settings = function(c)
+        c.sticky = true
+        c.ontop = true
+        app = "urxvt"
+        argname = "--name %s"
+    end
+}
 ----------------------------
 -------{{WORKSPACES}}-------
 ----------------------------
@@ -218,8 +225,8 @@ awful.screen.connect_for_each_screen(function(s)
 awful.tag(
 {
     "MAIN",
-    "NOTARY",
-    "MEDIA",
+    "SECONDARY",
+    "TERTIARY",
     "QUATERNARY",
     "GAMES",
     "DEVELOP",
@@ -237,9 +244,6 @@ env.wallpaper(s)
 ---------{{TITLEBAR}}---------
 ------------------------------
 
-    -- Create a hostname widget
-    machinename_widget = wibox.container.background(wibox.container.margin(wibox.widget {markup=string.upper(awesome.hostname), align=center, widget=wibox.widget.textbox}, 1, 1), "#282828")
-
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.noempty, taglist_buttons)
 
@@ -256,6 +260,18 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
                            awful.button({ }, 4, function () awful.layout.inc( 1) end),
                            awful.button({ }, 5, function () awful.layout.inc(-1) end)))
 
+--[[    --Change Volume on Scrollwheel up/down
+    volwidget.widget:buttons(awful.util.table.join(
+        awful.button({ }, 4, function()
+            awful.spawn("amixer -q sset Master 1%+") --scroll up
+            volume_widget.update()
+        end),
+        awful.button({ }, 5, function()
+            awful.spawn("amixer -q sset Master 1%-") --scroll down
+            volume_widget.update()
+        end)
+    )) # Causing issues turning up only one side of the audio 20220701/0807-dev]]--
+
     -- Create the wibox
     s.toppanel = awful.wibar({ position = "top", screen = s, height=beautiful.panel_height })
 
@@ -265,8 +281,6 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
         expand = "none",
         { -- Left Widgets
             layout = wibox.layout.fixed.horizontal,
-            machinename_widget,
-            arrow_r("#282828","alpha"),
             taglist,
             arrow_r("#2f2f2f","alpha"),
             s.mytasklist,
@@ -285,40 +299,45 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
     }
 
     --TODO
-    --CPU (All 8 threads)
+    --CPU (All 8 threads), jack_control status and MEM usage
     -- create second wibar
     s.spanel = awful.wibar({ position = "top", screen = s, height=beautiful.panel_height, bg = "#00000000" })
-    
+    local lwidgets = {
+        {
+            layout = wibox.layout.align.horizontal,
+            arrow_r("#3f3f3f","alpha"),
+            memwidget.widget,
+        },
+        bg = beautiful.color.background,
+        widget = wibox.container.background
+    }
+    local rwidgets = {
+        {
+            layout = wibox.layout.align.horizontal,
+            tempwidget,
+            arrow_l("#3f3f3f","alpha"),
+        },
+        bg = beautiful.color.background,
+        widget = wibox.container.background
+    }
+
     s.spanel:setup {
         layout = wibox.layout.align.horizontal,
         expand = "none",
         {-- Left Widgets
             layout = wibox.layout.fixed.horizontal,
             cpugovernor,
-            arrow_r("#1d2021","#fabd2f"),
-            cpuwidget,
-            sysloadwidget,
-            arrow_r("#fabd2f","#1d2021"),
-            memwidget,
-            arrow_r("#1d2021","#cc241d"),
-            fshome,
-            arrow_r("#cc241d","#98971a"),
-            lanwidget,
-            arrow_r("#98971a","#1d2021"),
-            uptimewidget,
+            weatherwatch,
+            lwidgets,
             arrow_r(beautiful.color.background,"alpha"),
         },
             --Middle Wdigets
               nil,
             {-- Right Widgets
             layout = wibox.layout.fixed.horizontal,
-            arrow_l("alpha","#1d2021"),
-            adbdevicemenu,
-            arrow_l("#1d2021","#3f3f3f"),
-            tempwidget,
-            arrow_l("#3f3f3f","#1d2021"),
+            arrow_l("alpha","#3f3f3f"),
+            rwidgets,
             volwidget,
-            arrow_l("#1d2021","#3f3f3f"),
             systemtray,
         },
     }
@@ -338,12 +357,16 @@ root.buttons(gears.table.join(
 
 globalkeys = gears.table.join(
     awful.key({ env.mod, "Shift"   }, "/", hotkeys_popup.show_help,
-              {description="show help", group="awesome"}),    
+              {description="show help", group="awesome"}),
+    awful.key({env.mod, "Shift"    }, "K", function() keyboardLayoutPopup.visible = true end,
+              {description = "show keyboard layout overlay", group="awesome"}),
+    awful.key({ env.mod,           }, "z", function() awful.screen.focused().drop_urxvt:toggle() end,
+    {description="dropdown urxvt terminal",group="awesome"}),    
     awful.key({ env.mod,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
-   awful.key({ env.mod, "Control" }, "space", naughty.destroy_all_notifications,
+    awful.key({ env.mod, "Control" }, "space", naughty.destroy_all_notifications,
               {description = "destroy notification", group = "awesome"}),
-    awful.key({ env.mod, "Shift"   }, "s", function() awful.spawn("flameshot gui") end,
+    awful.key({ env.mod, "Shift"   }, "s", function() awful.spawn(env.terminal.." --class term.screenshot -t MAkeIMage -e maim --format png -s /dev/stdout | copyq write image/png -") end,
               {description = "take a screenshot",   group = "awesome"}),
 
     --Switching Windows
@@ -366,8 +389,11 @@ globalkeys = gears.table.join(
                 awful.client.focus.byidx(-1)
             else 
                 awful.client.focus.global_bydirection("left")
+                bling.module.flash_focus.flashfocus(client.focus)
             end
-            if client.focus then client.focus:raise() end
+            if client.focus then 
+              client.focus:raise() 
+            end
         end,
         {description = "focus window previous", group = "client"}
     ),
@@ -388,15 +414,13 @@ globalkeys = gears.table.join(
 
     --Moving Windows
     awful.key({ env.mod, "Shift"   }, "Left",
-    function () 
-        local index=client.focus.first_tag.index
-        client.focus:move_to_screen(client.focus.screen.index+1)
+    function ()
+        awful.client.swap.global_bydirection("left")
     end,
               {description = "swap with client to the left", group = "client"}),
     awful.key({ env.mod, "Shift"   }, "Right",
     function ()
-        local index=client.focus.first_tag.index
-        client.focus:move_to_screen(client.focus.screen.index-1)
+        awful.client.swap.global_bydirection("right")
     end,
               {description = "swap with client to the right", group = "client"}),
     awful.key({ env.mod, "Shift"   }, "Down",
@@ -412,19 +436,31 @@ globalkeys = gears.table.join(
 
     awful.key({ env.mod,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
-
     awful.key({ env.mod               }, "Tab", function() awesome.emit_signal("bling::window_switcher::turn_on") end, {description = "Window Switcher", group = "bling"}),
+    awful.key({ env.mod,           }, "j", function () awful.screen.focus_bydirection("left") end,
+              {description = "focus the next screen", group = "screen"}),
+    awful.key({ env.mod,           }, "k", function () awful.screen.focus_bydirection("right") end,
+              {description = "focus the previous screen", group = "screen"}),
+    awful.key({ env.mod,   "Shift" }, "j",   awful.client.movetoscreen,
+              {description = "move to next screen, cycling", group = "client"}),
+--[[    awful.key({ env.mod,   "Shift" }, "j",  function() client:move_to_screen() end,
+              {description = "move to next screen, cycling", group = "client"}),
+    awful.key({ env.mod,   "Shift" }, "k", 
+    function () 
+        local screen = awful.screen.focused()
+        client:move_to_screen(screen.index-1)
+    end,
+              {description = "move to prev screen, cycling", group = "client"}),
+              ]]--
 
     -- Standard program
     awful.key({ env.mod, "Shift" }, "Return", function () awful.spawn(env.terminal) end,
               {description = "open a env.terminal", group = "launcher"}),
     awful.key({ env.mod, "Shift" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
-    awful.key({ "Mod4", }, "r", function() awful.spawn("readclipboard") end,
-              {description = "Pipe current selection into spd-say", group = "launcher"}),
-    awful.key({ env.mod, "Shift"   }, "e", function () awful.spawn(env.scriptsdir .. "logout.sh") end,
+    awful.key({ env.mod, "Shift"   }, "e", function () awful.spawn("logout.sh") end,
               {description = "quit awesome", group = "awesome"}),
-    awful.key({ env.mod, "Control"   }, "l", function () awful.spawn(env.scriptsdir .. "lockscreen.sh") end,
+    awful.key({ env.mod, "Control"   }, "l", function () awful.spawn("lockscreen.sh") end,
               {description = "lock awesome", group = "awesome"}),
 
     awful.key({ env.mod, "Control" }, "-",
@@ -446,16 +482,19 @@ globalkeys = gears.table.join(
     awful.key({},"XF86AudioLowerVolume",
         function()
             awful.spawn("amixer -q sset Master 1%-")
+            volume_widget.update()
         end,
     	{description = "Lower volume by 1%", group="client"}),
     awful.key({},"XF86AudioRaiseVolume",
         function()
             awful.spawn("amixer -q sset Master 1%+")
+            volume_widget.update()
         end,
     	{description = "Raise volume by 1%", group="client"}),
     awful.key({}, "XF86AudioMute",
         function()
             awful.spawn("amixer -q sset Master toggle")
+            volume_widget.update()
         end,
     	{description = "Mute audio", group="client"})
 )
@@ -498,7 +537,7 @@ clientkeys = gears.table.join(
     awful.key({ env.mod,           }, "m",
         function (c)
             c.maximized = not c.maximized
-	          c.ontop = not c.ontop
+	    c.ontop = not c.ontop
             c:raise()
         end ,
         {description = "(un)maximize", group = "tag"}),
@@ -604,7 +643,7 @@ local signals = require("modules.signals")
         awful.titlebar(c):setup {
             { -- Left
                 --awful.titlebar.widget.iconwidget(c),
-                buttons = buttons,
+                --buttons = buttons,
                 layout  = wibox.layout.fixed.horizontal
             },
             { -- Middle
