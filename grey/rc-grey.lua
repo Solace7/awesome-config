@@ -158,7 +158,7 @@ local fshome = wibox.container.background(wibox.container.margin(wibox.widget {h
 -- sysload widget TODO
 local sysload_widget = lain.widget.sysload({
   settings = function()
-    widget:set_markup('<span color="#1d2021">' .. "L1" .. load_1 .. "|" .. "L5: " .. load_5 .. "|" .. "L15" .. load_15 .. '</span>')
+    widget:set_markup('<span color="#1d2021">' .. "L1: " .. load_1 .. "|" .. "L5: " .. load_5 .. "|" .. "L15: " .. load_15 .. '</span>')
   end
 })
 local sysloadwidget = wibox.container.background(wibox.container.margin(wibox.widget {sysload_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#fabd2f")
@@ -166,10 +166,10 @@ local sysloadwidget = wibox.container.background(wibox.container.margin(wibox.wi
 -- CPU usage widget TODO
 local cpu_widget = lain.widget.cpu({
   settings = function()
-    widget:set_text(cpu_now.usage)
+    widget:set_markup(cpu_now.usage)
   end
 })
-local cpuwidget = wibox.container.background(wibox.container.margin(wibox.widget {cpu_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#fabd2f")
+local cpuwidget = wibox.container.background(wibox.container.margin(wibox.widget {cpu_widget.widget, layout=wibox.layout.fixed.horizontal}, 1, 1), "#1d2021")
 
 -- Memory Widget
 local memory_widget = lain.widget.mem({
@@ -295,18 +295,18 @@ local taglist = wibox.container.background(wibox.container.margin(wibox.widget {
         {-- Left Widgets
             layout = wibox.layout.fixed.horizontal,
             cpugovernor,
-            arrow_r("#1d2021","#fabd2f"),
             cpuwidget,
+            arrow_r("#1d2021","#fabd2f"),
             sysloadwidget,
             arrow_r("#fabd2f","#1d2021"),
             memwidget,
-            arrow_r("#1d2021","#cc241d"),
-            fshome,
-            arrow_r("#cc241d","#98971a"),
+            arrow_r("#1d2021","#98971a"),
             lanwidget,
             arrow_r("#98971a","#1d2021"),
             uptimewidget,
-            arrow_r(beautiful.color.background,"alpha"),
+            arrow_r("#1d2021","#cc241d"),
+            fshome,
+            arrow_r("#cc241d","alpha"),
         },
             --Middle Wdigets
               nil,
