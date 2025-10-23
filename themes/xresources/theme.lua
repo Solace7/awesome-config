@@ -20,22 +20,21 @@ theme.wallpaper = theme_path.."/background.png"
 theme.wallpaper_portrait = theme_path.."/background_portrait.png"
 theme.wallpapers = {theme_path.."/backgroundcenter.png",theme_path.."/backgroundleft.png",theme_path.."/backgroundright.png"}
 
-theme.font          = "Fira Code 9"
+theme.font          = "Fira Code 10"
 
 theme.color = {
     background      = xrdb.background,
     alt_background  = "#32302f", -- Xresources soft contrast
-    selected        = xrdb.foreground,
+    selected        = xrdb.background,
     alert           = xrdb.color1,
     focused         = xrdb.color11,
     selected_text   = xrdb.foreground,
-    unselected      = xrdb.color7,
+    unselected      = "#32302f",
 }
 
 theme.bg_normal     = theme.color.alt_background
 theme.bg_focus      = theme.color.background
 theme.bg_urgent     = theme.color.alert
-theme.bg_minimize   = theme.color.background
 theme.bg_systray    = theme.color.bg_normal
 
 theme.fg_normal     = theme.color.selected_text
@@ -45,7 +44,7 @@ theme.fg_minimize   = theme.color.selected_text
 theme.fg_systray    = theme.color.selected_text
 
 theme.border_width  = dpi(2)
-theme.useless_gap   = dpi(7)
+theme.useless_gap   = dpi(5)
 theme.border_normal = theme.color.bg_normal
 theme.border_focus  = theme.color.selected
 theme.border_marked = theme.bg_urgent
@@ -53,12 +52,14 @@ theme.border_marked = theme.bg_urgent
 theme.titlebar_bg_focus = theme.color.bg_focus
 theme.titlebar_fg_focus = theme.color.fg_focus
 
-theme.taglist_bg_focus = "png:"..theme_path .. "/taglist/taglist_sel.png"
+theme.taglist_bg_normal = theme.color.unselected
+theme.taglist_bg_focus =  theme.color.selected --"png:"..theme_path .. "/taglist/taglist_sel.png"
 theme.taglist_fg_urgent = theme.fg_urgent
 theme.taglist_fg_focus = theme.color.selected_text
 theme.taglist_fg_urgent = theme.fg_urgent
 
-theme.tasklist_bg_focus = "png:"..theme_path .. "/taglist/tasklist_sel.png"
+theme.tasklist_bg_normal = theme.color.unselected
+theme.tasklist_bg_focus = theme.color.selected -- "png:"..theme_path .. "/taglist/tasklist_sel.png"
 theme.tasklist_fg_focus = theme.color.fg_normal
 theme.tasklist_disable_icon = true
 theme.tasklist_plain_task_name = true
